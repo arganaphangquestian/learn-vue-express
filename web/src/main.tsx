@@ -1,10 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import { QueryClientProvider, QueryClient } from "react-query";
+import "./main.css";
+
+const client = new QueryClient({});
 
 ReactDOM.render(
-  <React.StrictMode>
+  <QueryClientProvider client={client}>
     <p>Hello World</p>
-  </React.StrictMode>,
+  </QueryClientProvider>,
   document.getElementById("root")
 );
