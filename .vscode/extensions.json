@@ -7,6 +7,7 @@
     "johnsoncodehk.volar",
     "christian-kohler.path-intellisense",
     "formulahendry.auto-rename-tag",
-    "formulahendry.auto-close-tag"
+    "formulahendry.auto-close-tag",
+    "bradlc.vscode-tailwindcss"
   ]
 }
