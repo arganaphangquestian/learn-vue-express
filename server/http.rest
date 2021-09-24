@@ -1,5 +1,25 @@
 ### Get Posts
 GET http://127.0.0.1:8000/post
+Content-Type: application/json
 
 ### Get Users
 GET http://127.0.0.1:8000/user
+Content-Type: application/json
+
+### Add Post
+POST http://127.0.0.1:8000/post
+Content-Type: application/json
+
+{
+  "title": "New post",
+  "authorId": 1
+}
+
+### Add User
+POST http://127.0.0.1:8000/user
+Content-Type: application/json
+
+{
+  "email": "kosun@mail.com",
+  "name": "Kosun"
+}

@@ -2,8 +2,22 @@ var __create3 = Object.create;
 var __defProp3 = Object.defineProperty;
 var __getOwnPropDesc3 = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames3 = Object.getOwnPropertyNames;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __getProtoOf3 = Object.getPrototypeOf;
 var __hasOwnProp3 = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp3.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
 var __markAsModule3 = (target) => __defProp3(target, "__esModule", { value: true });
 var __require = typeof require !== "undefined" ? require : (x) => {
   throw new Error('Dynamic require of "' + x + '" is not supported');
@@ -14048,9 +14062,9 @@ var require_json = __commonJS3({
     var debug6 = require_src4()("body-parser:json");
     var read = require_read();
     var typeis = require_type_is();
-    module2.exports = json;
+    module2.exports = json2;
     var FIRST_CHAR_REGEXP = /^[\x20\x09\x0a\x0d]*(.)/;
-    function json(options2) {
+    function json2(options2) {
       var opts2 = options2 || {};
       var limit = typeof opts2.limit !== "number" ? bytes.parse(opts2.limit || "100kb") : opts2.limit;
       var inflate = opts2.inflate !== false;
@@ -20003,7 +20017,7 @@ var require_response = __commonJS3({
       }
       return this;
     };
-    res.json = function json(obj) {
+    res.json = function json2(obj) {
       var val = obj;
       if (arguments.length === 2) {
         if (typeof arguments[1] === "number") {
@@ -20380,9 +20394,9 @@ var require_response = __commonJS3({
       file2.pipe(res2);
     }
     function stringify2(value, replacer, spaces, escape2) {
-      var json = replacer || spaces ? JSON.stringify(value, replacer, spaces) : JSON.stringify(value);
+      var json2 = replacer || spaces ? JSON.stringify(value, replacer, spaces) : JSON.stringify(value);
       if (escape2) {
-        json = json.replace(/[<>&]/g, function(c) {
+        json2 = json2.replace(/[<>&]/g, function(c) {
           switch (c.charCodeAt(0)) {
             case 60:
               return "\\u003c";
@@ -20395,7 +20409,7 @@ var require_response = __commonJS3({
           }
         });
       }
-      return json;
+      return json2;
     }
   }
 });
@@ -24224,14 +24238,14 @@ ${this.stderrLogs}`));
       var import_byline2 = __toModule32(require_byline());
       function generatorHandler2(handler) {
         (0, import_byline2.default)(process.stdin).on("data", async (line) => {
-          const json = JSON.parse(String(line));
-          if (json.method === "generate" && json.params) {
+          const json2 = JSON.parse(String(line));
+          if (json2.method === "generate" && json2.params) {
             try {
-              const result = await handler.onGenerate(json.params);
+              const result = await handler.onGenerate(json2.params);
               respond({
                 jsonrpc: "2.0",
                 result,
-                id: json.id
+                id: json2.id
               });
             } catch (e) {
               respond({
@@ -24241,20 +24255,20 @@ ${this.stderrLogs}`));
                   message: e.stack || e.message,
                   data: null
                 },
-                id: json.id
+                id: json2.id
               });
             }
           }
-          if (json.method === "getManifest") {
+          if (json2.method === "getManifest") {
             if (handler.onManifest) {
               try {
-                const manifest = handler.onManifest(json.params);
+                const manifest = handler.onManifest(json2.params);
                 respond({
                   jsonrpc: "2.0",
                   result: {
                     manifest
                   },
-                  id: json.id
+                  id: json2.id
                 });
               } catch (e) {
                 respond({
@@ -24264,7 +24278,7 @@ ${this.stderrLogs}`));
                     message: e.stack || e.message,
                     data: null
                   },
-                  id: json.id
+                  id: json2.id
                 });
               }
             } else {
@@ -24273,7 +24287,7 @@ ${this.stderrLogs}`));
                 result: {
                   manifest: null
                 },
-                id: json.id
+                id: json2.id
               });
             }
           }
@@ -50837,12 +50851,12 @@ ${import_chalk.default.dim("In case we're mistaken, please report this to us \u{
                 const data = String(msg);
                 debug("stderr", data);
                 try {
-                  const json = JSON.parse(data);
-                  if (typeof json.is_panic !== "undefined") {
-                    debug(json);
-                    this.setError(json);
+                  const json2 = JSON.parse(data);
+                  if (typeof json2.is_panic !== "undefined") {
+                    debug(json2);
+                    this.setError(json2);
                     if (this.engineStartDeferred) {
-                      const err = new import_PrismaClientInitializationError.PrismaClientInitializationError(json.message, this.clientVersion);
+                      const err = new import_PrismaClientInitializationError.PrismaClientInitializationError(json2.message, this.clientVersion);
                       this.engineStartDeferred.reject(err);
                     }
                   }
@@ -50856,9 +50870,9 @@ ${import_chalk.default.dim("In case we're mistaken, please report this to us \u{
                 var _a22, _b22;
                 const data = String(msg);
                 try {
-                  const json = JSON.parse(data);
-                  debug("stdout", (0, import_log.getMessage)(json));
-                  if (this.engineStartDeferred && json.level === "INFO" && json.target === "query_engine::server" && ((_b22 = (_a22 = json.fields) == null ? void 0 : _a22.message) == null ? void 0 : _b22.startsWith("Started http server"))) {
+                  const json2 = JSON.parse(data);
+                  debug("stdout", (0, import_log.getMessage)(json2));
+                  if (this.engineStartDeferred && json2.level === "INFO" && json2.target === "query_engine::server" && ((_b22 = (_a22 = json2.fields) == null ? void 0 : _a22.message) == null ? void 0 : _b22.startsWith("Started http server"))) {
                     if (this.useUds) {
                       this.connection.open("http://localhost", {
                         socketPath: this.socketPath
@@ -50869,8 +50883,8 @@ ${import_chalk.default.dim("In case we're mistaken, please report this to us \u{
                     this.engineStartDeferred.resolve();
                     this.engineStartDeferred = void 0;
                   }
-                  if (typeof json.is_panic === "undefined") {
-                    const log4 = (0, import_log.convertLog)(json);
+                  if (typeof json2.is_panic === "undefined") {
+                    const log4 = (0, import_log.convertLog)(json2);
                     const logIsRustErrorLog = (0, import_log.isRustErrorLog)(log4);
                     if (logIsRustErrorLog) {
                       this.setError(log4);
@@ -50878,7 +50892,7 @@ ${import_chalk.default.dim("In case we're mistaken, please report this to us \u{
                       this.logEmitter.emit(log4.level, log4);
                     }
                   } else {
-                    this.setError(json);
+                    this.setError(json2);
                   }
                 } catch (e) {
                   debug(e, data);
@@ -58788,30 +58802,363 @@ var require_client3 = __commonJS3({
   }
 });
 
+// node_modules/object-assign/index.js
+var require_object_assign = __commonJS3({
+  "node_modules/object-assign/index.js"(exports2, module2) {
+    "use strict";
+    var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
+    var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+    function toObject(val) {
+      if (val === null || val === void 0) {
+        throw new TypeError("Object.assign cannot be called with null or undefined");
+      }
+      return Object(val);
+    }
+    function shouldUseNative() {
+      try {
+        if (!Object.assign) {
+          return false;
+        }
+        var test1 = new String("abc");
+        test1[5] = "de";
+        if (Object.getOwnPropertyNames(test1)[0] === "5") {
+          return false;
+        }
+        var test2 = {};
+        for (var i = 0; i < 10; i++) {
+          test2["_" + String.fromCharCode(i)] = i;
+        }
+        var order2 = Object.getOwnPropertyNames(test2).map(function(n) {
+          return test2[n];
+        });
+        if (order2.join("") !== "0123456789") {
+          return false;
+        }
+        var test3 = {};
+        "abcdefghijklmnopqrst".split("").forEach(function(letter) {
+          test3[letter] = letter;
+        });
+        if (Object.keys(Object.assign({}, test3)).join("") !== "abcdefghijklmnopqrst") {
+          return false;
+        }
+        return true;
+      } catch (err) {
+        return false;
+      }
+    }
+    module2.exports = shouldUseNative() ? Object.assign : function(target, source) {
+      var from;
+      var to = toObject(target);
+      var symbols;
+      for (var s = 1; s < arguments.length; s++) {
+        from = Object(arguments[s]);
+        for (var key in from) {
+          if (hasOwnProperty.call(from, key)) {
+            to[key] = from[key];
+          }
+        }
+        if (getOwnPropertySymbols) {
+          symbols = getOwnPropertySymbols(from);
+          for (var i = 0; i < symbols.length; i++) {
+            if (propIsEnumerable.call(from, symbols[i])) {
+              to[symbols[i]] = from[symbols[i]];
+            }
+          }
+        }
+      }
+      return to;
+    };
+  }
+});
+
+// node_modules/cors/lib/index.js
+var require_lib5 = __commonJS3({
+  "node_modules/cors/lib/index.js"(exports2, module2) {
+    (function() {
+      "use strict";
+      var assign = require_object_assign();
+      var vary = require_vary();
+      var defaults = {
+        origin: "*",
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        preflightContinue: false,
+        optionsSuccessStatus: 204
+      };
+      function isString(s) {
+        return typeof s === "string" || s instanceof String;
+      }
+      function isOriginAllowed(origin, allowedOrigin) {
+        if (Array.isArray(allowedOrigin)) {
+          for (var i = 0; i < allowedOrigin.length; ++i) {
+            if (isOriginAllowed(origin, allowedOrigin[i])) {
+              return true;
+            }
+          }
+          return false;
+        } else if (isString(allowedOrigin)) {
+          return origin === allowedOrigin;
+        } else if (allowedOrigin instanceof RegExp) {
+          return allowedOrigin.test(origin);
+        } else {
+          return !!allowedOrigin;
+        }
+      }
+      function configureOrigin(options2, req) {
+        var requestOrigin = req.headers.origin, headers = [], isAllowed;
+        if (!options2.origin || options2.origin === "*") {
+          headers.push([{
+            key: "Access-Control-Allow-Origin",
+            value: "*"
+          }]);
+        } else if (isString(options2.origin)) {
+          headers.push([{
+            key: "Access-Control-Allow-Origin",
+            value: options2.origin
+          }]);
+          headers.push([{
+            key: "Vary",
+            value: "Origin"
+          }]);
+        } else {
+          isAllowed = isOriginAllowed(requestOrigin, options2.origin);
+          headers.push([{
+            key: "Access-Control-Allow-Origin",
+            value: isAllowed ? requestOrigin : false
+          }]);
+          headers.push([{
+            key: "Vary",
+            value: "Origin"
+          }]);
+        }
+        return headers;
+      }
+      function configureMethods(options2) {
+        var methods = options2.methods;
+        if (methods.join) {
+          methods = options2.methods.join(",");
+        }
+        return {
+          key: "Access-Control-Allow-Methods",
+          value: methods
+        };
+      }
+      function configureCredentials(options2) {
+        if (options2.credentials === true) {
+          return {
+            key: "Access-Control-Allow-Credentials",
+            value: "true"
+          };
+        }
+        return null;
+      }
+      function configureAllowedHeaders(options2, req) {
+        var allowedHeaders = options2.allowedHeaders || options2.headers;
+        var headers = [];
+        if (!allowedHeaders) {
+          allowedHeaders = req.headers["access-control-request-headers"];
+          headers.push([{
+            key: "Vary",
+            value: "Access-Control-Request-Headers"
+          }]);
+        } else if (allowedHeaders.join) {
+          allowedHeaders = allowedHeaders.join(",");
+        }
+        if (allowedHeaders && allowedHeaders.length) {
+          headers.push([{
+            key: "Access-Control-Allow-Headers",
+            value: allowedHeaders
+          }]);
+        }
+        return headers;
+      }
+      function configureExposedHeaders(options2) {
+        var headers = options2.exposedHeaders;
+        if (!headers) {
+          return null;
+        } else if (headers.join) {
+          headers = headers.join(",");
+        }
+        if (headers && headers.length) {
+          return {
+            key: "Access-Control-Expose-Headers",
+            value: headers
+          };
+        }
+        return null;
+      }
+      function configureMaxAge(options2) {
+        var maxAge = (typeof options2.maxAge === "number" || options2.maxAge) && options2.maxAge.toString();
+        if (maxAge && maxAge.length) {
+          return {
+            key: "Access-Control-Max-Age",
+            value: maxAge
+          };
+        }
+        return null;
+      }
+      function applyHeaders(headers, res) {
+        for (var i = 0, n = headers.length; i < n; i++) {
+          var header = headers[i];
+          if (header) {
+            if (Array.isArray(header)) {
+              applyHeaders(header, res);
+            } else if (header.key === "Vary" && header.value) {
+              vary(res, header.value);
+            } else if (header.value) {
+              res.setHeader(header.key, header.value);
+            }
+          }
+        }
+      }
+      function cors2(options2, req, res, next) {
+        var headers = [], method = req.method && req.method.toUpperCase && req.method.toUpperCase();
+        if (method === "OPTIONS") {
+          headers.push(configureOrigin(options2, req));
+          headers.push(configureCredentials(options2, req));
+          headers.push(configureMethods(options2, req));
+          headers.push(configureAllowedHeaders(options2, req));
+          headers.push(configureMaxAge(options2, req));
+          headers.push(configureExposedHeaders(options2, req));
+          applyHeaders(headers, res);
+          if (options2.preflightContinue) {
+            next();
+          } else {
+            res.statusCode = options2.optionsSuccessStatus;
+            res.setHeader("Content-Length", "0");
+            res.end();
+          }
+        } else {
+          headers.push(configureOrigin(options2, req));
+          headers.push(configureCredentials(options2, req));
+          headers.push(configureExposedHeaders(options2, req));
+          applyHeaders(headers, res);
+          next();
+        }
+      }
+      function middlewareWrapper(o) {
+        var optionsCallback = null;
+        if (typeof o === "function") {
+          optionsCallback = o;
+        } else {
+          optionsCallback = function(req, cb) {
+            cb(null, o);
+          };
+        }
+        return function corsMiddleware(req, res, next) {
+          optionsCallback(req, function(err, options2) {
+            if (err) {
+              next(err);
+            } else {
+              var corsOptions = assign({}, defaults, options2);
+              var originCallback = null;
+              if (corsOptions.origin && typeof corsOptions.origin === "function") {
+                originCallback = corsOptions.origin;
+              } else if (corsOptions.origin) {
+                originCallback = function(origin, cb) {
+                  cb(null, corsOptions.origin);
+                };
+              }
+              if (originCallback) {
+                originCallback(req.headers.origin, function(err2, origin) {
+                  if (err2 || !origin) {
+                    next(err2);
+                  } else {
+                    corsOptions.origin = origin;
+                    cors2(corsOptions, req, res, next);
+                  }
+                });
+              } else {
+                next();
+              }
+            }
+          });
+        };
+      }
+      module2.exports = middlewareWrapper;
+    })();
+  }
+});
+
 // src/index.ts
 var import_express = __toModule3(require_express2());
 var import_client = __toModule3(require_client3());
+var import_cors = __toModule3(require_lib5());
+var import_body_parser = __toModule3(require_body_parser());
 var app = (0, import_express.default)();
 var PORT = 8e3;
 var prisma = new import_client.PrismaClient();
+app.use((0, import_cors.default)());
+app.use((0, import_body_parser.json)());
 app.get("/", (req, res) => {
   res.json({ message: "App is Running" });
 });
 app.get("/post", (req, res) => __async(void 0, null, function* () {
-  const posts = yield prisma.post.findMany();
-  res.json({ message: "Get all post", data: { posts } });
+  prisma.post.findMany().then((posts) => {
+    res.json({ message: "Get all post", data: { posts } });
+  }).catch((e) => {
+    res.json({ message: "Something went wrong" });
+  });
+}));
+app.get("/post/:id", (req, res) => {
+  let id;
+  try {
+    id = parseInt(req.params.id);
+  } catch (error) {
+    res.json({ message: "post param must be number" });
+    return;
+  }
+  prisma.post.findFirst({ where: { id } }).then((post) => {
+    res.json({ message: `Get post by id ${id}`, data: { post } });
+  }).catch((e) => {
+    res.json({ message: "Something went wrong" });
+  });
+});
+app.post("/post", (req, res) => __async(void 0, null, function* () {
+  const post = req.body;
+  prisma.post.create({ data: __spreadValues({}, post) }).then((data) => {
+    res.json({ message: "Add new post", data: { post: data } });
+  }).catch((e) => {
+    res.json({ message: "New post failed" });
+  });
 }));
 app.get("/user", (req, res) => __async(void 0, null, function* () {
-  const users = yield prisma.user.findMany({
-    include: {
-      posts: true
-    }
+  prisma.user.findMany({ include: { posts: true } }).then((users) => {
+    res.json({ message: "Get all user", data: { users } });
+  }).catch((e) => {
+    res.json({ message: "Something went wrong" });
   });
-  res.json({ message: "Get all post", data: { users } });
+}));
+app.get("/user/:id", (req, res) => {
+  let id;
+  try {
+    id = parseInt(req.params.id);
+  } catch (error) {
+    res.json({ message: "user param must be number" });
+    return;
+  }
+  prisma.user.findFirst({ where: { id } }).then((user) => {
+    res.json({ message: `Get user by id ${id}`, data: { user } });
+  }).catch((e) => {
+    res.json({ message: "Something went wrong" });
+  });
+});
+app.post("/user", (req, res) => __async(void 0, null, function* () {
+  const user = req.body;
+  prisma.user.create({ data: __spreadValues({}, user) }).then((data) => {
+    res.json({ message: "Add new user", data: { user: data } });
+  }).catch((e) => {
+    res.json({ message: "New user failed" });
+  });
 }));
 app.listen(PORT, () => {
   console.log(`\u26A1\uFE0F[server]: Server is running at https://localhost:${PORT}`);
 });
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
 /*!
  * @description Recursive object extending
  * @author Viacheslav Lotsmanov <lotsmanov89@gmail.com>
