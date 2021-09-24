@@ -31,12 +31,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    getPosts().then(posts => {
-      this.posts = posts;
-      this.filteredPosts = posts;
-    }).catch(e => {
-      console.log(e)
-    })
+    this.loadPosts();
   },
   methods: {
     loadPosts() {

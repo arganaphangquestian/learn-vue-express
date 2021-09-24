@@ -4,7 +4,7 @@
       type="button"
       @click="openModal"
       class="px-4 py-2 text-sm text-blue font-bold bg-blue-400 rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-    >Open dialog</button>
+    >New User</button>
   </div>
   <TransitionRoot appear :show="isOpen" as="template">
     <Dialog as="div" @close="closeModal">
@@ -36,27 +36,28 @@
             <div
               class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl"
             >
-              <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">Input Post</DialogTitle>
+              <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">Input User</DialogTitle>
 
               <div class="mt-2">
                 <div class="mt-1 relative rounded-md shadow-sm">
                   <input
                     type="text"
-                    name="title"
+                    name="name"
                     class="focus:ring-indigo-500 focus:border-indigo-500 block w-full px-4 py-4 sm:text-sm border-gray-700 rounded-md"
-                    placeholder="New post"
+                    placeholder="Name"
                     autocomplete="off"
-                    v-model="title"
+                    v-model="name"
                   />
                 </div>
                 <div class="mt-4 relative rounded-md shadow-sm border-gray-400">
-                  <select
-                    name="title"
-                    class="focus:ring-indigo-500 focus:border-indigo-500 block w-full px-4 py-4 sm:text-sm bg-white border-gray-700 rounded-md"
-                    v-model="user"
-                  >
-                    <option v-for="p in users" v-bind:value="p.id">{{ p.name }}</option>
-                  </select>
+                  <input
+                    type="email"
+                    name="email"
+                    class="focus:ring-indigo-500 focus:border-indigo-500 block w-full px-4 py-4 sm:text-sm border-gray-700 rounded-md"
+                    placeholder="Email"
+                    autocomplete="off"
+                    v-model="email"
+                  />
                 </div>
               </div>
 
@@ -89,8 +90,7 @@ import {
   DialogOverlay,
   DialogTitle,
 } from '@headlessui/vue'
-import { addPost } from "../network/post"
-import { getUsers } from "../network/user"
+import { addUser } from "../network/user"
 
 export default defineComponent({
   components: {
@@ -105,27 +105,18 @@ export default defineComponent({
 
   setup() {
     const isOpen = ref(false)
-    const title = ref("")
-    const user = ref(undefined)
-    const users = ref([]);
-
-    onMounted(() => {
-      getUsers().then(data => {
-        data.unshift({ name: "Pilih User" });
-        users.value = data
-      }).catch(e => console.log(e))
-    })
+    const name = ref("")
+    const email = ref("")
 
     return {
       isOpen,
-      title,
-      user,
-      users,
+      name,
+      email,
       submit() {
-        addPost(title.value, user.value).then((post) => {
+        addUser(name.value, email.value).then((user) => {
           isOpen.value = false
-          user.value = undefined;
-          title.value = ""
+          name.value = undefined;
+          email.value.value = ""
           this.$emit('is-update');
         }).catch(e => console.log(e));
       },
