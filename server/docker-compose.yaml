@@ -1,11 +1,12 @@
 version: "3"
 services:
   database:
-    image: postgres:alpine
+    image: mysql:latest
     container_name: "vote_database"
     ports:
-      - "5432:5432"
+      - "3306:3306"
     environment:
-      POSTGRES_DB: "vote_database"
-      POSTGRES_USER: "vote_user"
-      POSTGRES_PASSWORD: "siosdhf8972903bnjasd81jk"
+      MYSQL_DATABASE: "vote_database"
+      MYSQL_USER: "vote_user"
+      MYSQL_ROOT_PASSWORD: "truesight"
+      MYSQL_PASSWORD: "hjkasikdyq899q823njmknjmk,asd"
