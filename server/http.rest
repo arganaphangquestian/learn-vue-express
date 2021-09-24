@@ -2,8 +2,16 @@
 GET http://127.0.0.1:8000/post
 Content-Type: application/json
 
+### Get Post By id
+GET http://127.0.0.1:8000/post/1
+Content-Type: application/json
+
 ### Get Users
 GET http://127.0.0.1:8000/user
+Content-Type: application/json
+
+### Get User By id
+GET http://127.0.0.1:8000/user/1
 Content-Type: application/json
 
 ### Add Post
