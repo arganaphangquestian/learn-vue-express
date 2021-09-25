@@ -19,8 +19,8 @@ POST http://127.0.0.1:8000/post
 Content-Type: application/json
 
 {
-  "title": "New post",
-  "authorId": 1
+  "name": "Kosun lastest post",
+  "userId": 3
 }
 
 ### Add User
@@ -28,6 +28,8 @@ POST http://127.0.0.1:8000/user
 Content-Type: application/json
 
 {
-  "email": "kosun@mail.com",
   "name": "Kosun"
 }
+
+### Test
+GET http://127.0.0.1:8000/
