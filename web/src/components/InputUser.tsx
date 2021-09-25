@@ -1,15 +1,28 @@
 import React from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { useQueryClient, useMutation } from "react-query";
+import { addUser } from "@/networks/user";
 
 const InputUser = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    ({ name, email }: { name: string; email: string }) => addUser(name, email),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("users");
+        setName("");
+        setEmail("");
+        setIsOpen(false);
+      },
+    }
+  );
 
   const onSubmit = () => {
-    setName("");
-    setEmail("");
-    setIsOpen(false);
+    mutation.mutate({ name, email });
   };
 
   return (
@@ -73,6 +86,8 @@ const InputUser = () => {
                       name="name"
                       placeholder="Input name"
                       autoComplete="off"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       className="py-2 px-4 rounded-md border border-gray-400 w-full"
                     />
                   </div>
@@ -82,6 +97,8 @@ const InputUser = () => {
                       name="email"
                       placeholder="Input email"
                       autoComplete="off"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="py-2 px-4 rounded-md border border-gray-400 w-full"
                     />
                   </div>

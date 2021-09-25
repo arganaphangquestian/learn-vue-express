@@ -11,10 +11,9 @@ export const getUsers = async () => {
   return response.data.data.users as User[];
 };
 
-export const addUser = async (name: string, email: string) => {
-  const response = await axios.post("http://127.0.0.1:8000/user", {
+export const addUser = (name: string, email: string) => {
+  return axios.post("http://127.0.0.1:8000/user", {
     name,
     email,
   });
-  return response.data.data.user as User;
 };

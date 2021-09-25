@@ -1,17 +1,32 @@
 import React from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { getUsers } from "@/networks/user";
+import { addPost } from "@/networks/post";
 
 const InputPost = () => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [name, setName] = React.useState("");
+  const [title, setTitle] = React.useState("");
   const [authorId, setAuthorId] = React.useState("");
+  const { data } = useQuery("users", getUsers);
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    ({ title, authorId }: { title: string; authorId: number }) =>
+      addPost(title, authorId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("posts");
+        setTitle("");
+        setAuthorId("");
+        setIsOpen(false);
+      },
+    }
+  );
 
   const onSubmit = () => {
-    setName("");
-    setAuthorId("");
-    setIsOpen(false);
+    mutation.mutate({ title, authorId: parseInt(authorId) });
   };
-
   return (
     <>
       <div className="flex items-center justify-center">
@@ -73,14 +88,25 @@ const InputPost = () => {
                       name="name"
                       placeholder="Input name"
                       autoComplete="off"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
                       className="py-2 px-4 rounded-md border border-gray-400 w-full"
                     />
                   </div>
                   <div className="mt-4">
                     <select
                       name="authorId"
-                      className="py-2 px-4 rounded-md border border-gray-400 w-full"
-                    />
+                      className="py-2 px-4 rounded-md border bg-transparent border-gray-400 w-full"
+                      value={authorId}
+                      onChange={(e) => setAuthorId(e.target.value)}
+                    >
+                      <option value="">Pilih User</option>
+                      {data?.map((user, key) => (
+                        <option key={key} value={user.id}>
+                          {user.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
