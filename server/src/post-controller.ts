@@ -1,18 +1,10 @@
 import { Express } from "express";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
-type PostBody = {
-  name: string;
-  userId: number;
-};
+import PostRepo, { PostBody } from "./repository/post-repo";
 
 export default class PostController {
   constructor(app: Express) {
     app.get("/post", (_req, res) => {
-      prisma.post
-        .findMany({ include: { User: true } })
+      PostRepo.getAllPosts()
         .then((posts) => {
           return res
             .status(200)
@@ -30,8 +22,7 @@ export default class PostController {
       } catch (error) {
         return res.status(500).json({ message: "id must be number" });
       }
-      prisma.post
-        .findFirst({ include: { User: true }, where: { id: id } })
+      PostRepo.getPostByID(id)
         .then((post) => {
           return res
             .status(200)
@@ -42,15 +33,18 @@ export default class PostController {
         });
     });
 
+    app.delete("/post/:id", (req, res) => {
+      let id = -1;
+      try {
+        id = parseInt(req.params.id);
+      } catch (error) {
+        return res.status(500).json({ message: "id must be number" });
+      }
+    });
+
     app.post("/post", (req, res) => {
       let post = req.body as PostBody;
-      prisma.post
-        .create({
-          data: {
-            name: post.name,
-            userId: post.userId,
-          },
-        })
+      PostRepo.createPost(post)
         .then((post) => {
           return res
             .status(200)

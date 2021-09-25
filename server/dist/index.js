@@ -22,6 +22,26 @@ var __reExport2 = (target, module2, desc) => {
 var __toModule3 = (module2) => {
   return __reExport2(__markAsModule3(__defProp3(module2 != null ? __create3(__getProtoOf3(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? { get: () => module2.default, enumerable: true } : { value: module2, enumerable: true })), module2);
 };
+var __async = (__this, __arguments, generator) => {
+  return new Promise((resolve, reject) => {
+    var fulfilled = (value) => {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    };
+    var rejected = (value) => {
+      try {
+        step(generator.throw(value));
+      } catch (e) {
+        reject(e);
+      }
+    };
+    var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+    step((generator = generator.apply(__this, __arguments)).next());
+  });
+};
 
 // node_modules/depd/lib/compat/callsite-tostring.js
 var require_callsite_tostring = __commonJS3({
@@ -59047,13 +59067,32 @@ var import_express = __toModule3(require_express2());
 var import_cors = __toModule3(require_lib5());
 var import_body_parser = __toModule3(require_body_parser());
 
-// src/post-controller.ts
+// src/repository/post-repo.ts
 var import_client = __toModule3(require_client3());
 var prisma = new import_client.PrismaClient();
+var _PostRepo = class {
+};
+var PostRepo = _PostRepo;
+PostRepo.getPostByID = (id) => __async(_PostRepo, null, function* () {
+  return prisma.post.findFirst({ include: { User: true }, where: { id } });
+});
+PostRepo.getAllPosts = () => __async(_PostRepo, null, function* () {
+  return prisma.post.findMany({ include: { User: true } });
+});
+PostRepo.createPost = (post) => __async(_PostRepo, null, function* () {
+  return prisma.post.create({
+    data: {
+      name: post.name,
+      userId: post.userId
+    }
+  });
+});
+
+// src/post-controller.ts
 var PostController = class {
   constructor(app2) {
     app2.get("/post", (_req, res) => {
-      prisma.post.findMany({ include: { User: true } }).then((posts) => {
+      PostRepo.getAllPosts().then((posts) => {
         return res.status(200).json({ message: "Get all post", data: { posts } });
       }).catch((e) => {
         return res.status(500).json({ message: `Error : ${e}` });
@@ -59066,20 +59105,23 @@ var PostController = class {
       } catch (error) {
         return res.status(500).json({ message: "id must be number" });
       }
-      prisma.post.findFirst({ include: { User: true }, where: { id } }).then((post) => {
+      PostRepo.getPostByID(id).then((post) => {
         return res.status(200).json({ message: `Get post by id ${id}`, data: { post } });
       }).catch((e) => {
         return res.status(500).json({ message: `Error : ${e}` });
       });
     });
+    app2.delete("/post/:id", (req, res) => {
+      let id = -1;
+      try {
+        id = parseInt(req.params.id);
+      } catch (error) {
+        return res.status(500).json({ message: "id must be number" });
+      }
+    });
     app2.post("/post", (req, res) => {
       let post = req.body;
-      prisma.post.create({
-        data: {
-          name: post.name,
-          userId: post.userId
-        }
-      }).then((post2) => {
+      PostRepo.createPost(post).then((post2) => {
         return res.status(200).json({ message: `Add new post`, data: { post: post2 } });
       }).catch((e) => {
         return res.status(500).json({ message: `Error : ${e}` });
